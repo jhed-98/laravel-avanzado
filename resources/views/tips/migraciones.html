@@ -1,0 +1,214 @@
+<h2>
+    51. Conexión a base de datos
+</h2>
+<div class="ckeditor">
+    <p>Para conectar tu aplicación Laravel 10 a una base de datos, primero debes configurar la conexión en el archivo
+        .env de tu aplicación. Abre el archivo .env y busca las variables de entorno que comienzan con "DB_". Asegúrate
+        de que estas variables se ajusten a la configuración de tu base de datos:</p>
+    <pre class="language-php" tabindex="0"><code class="language-php"><span class="token constant">DB_CONNECTION</span><span class="token operator">=</span>mysql
+<span class="token constant">DB_HOST</span><span class="token operator">=</span><span class="token number">127.0</span><span class="token number">.0</span><span class="token number">.1</span>
+<span class="token constant">DB_PORT</span><span class="token operator">=</span><span class="token number">3306</span>
+<span class="token constant">DB_DATABASE</span><span class="token operator">=</span>nombre_de_la_base_de_datos
+<span class="token constant">DB_USERNAME</span><span class="token operator">=</span>nombre_de_usuario
+<span class="token constant">DB_PASSWORD</span><span class="token operator">=</span>contraseña</code></pre>
+    <p>En el ejemplo anterior, se utiliza la base de datos MySQL. Si estás utilizando otra base de datos, como
+        PostgreSQL o SQLite, debes cambiar el valor de DB_CONNECTION.</p>
+    <p>Una vez que hayas configurado la conexión a la base de datos, puedes utilizar el ORM Eloquent de Laravel para
+        interactuar con la base de datos. Eloquent te permite definir modelos que representan tablas de la base de datos
+        y realizar operaciones de CRUD (crear, leer, actualizar y eliminar) en ellas de forma fácil y elegante.</p>
+    <p>Para comenzar a utilizar Eloquent, primero debes crear un modelo. Puedes generar un modelo utilizando el comando
+        artisan make:model seguido del nombre del modelo. Por ejemplo, si quieres crear un modelo para la tabla "users",
+        puedes ejecutar el siguiente comando:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php">php artisan make<span class="token punctuation">:</span>model User</code></pre>
+    <p>Esto creará un archivo User.php en el directorio app/Models de tu aplicación Laravel 10. Abre el archivo y
+        asegúrate de que la clase tenga el siguiente código:</p>
+    <pre class="language-php" tabindex="0"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Models</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">Illuminate<span class="token punctuation">\</span>Database<span class="token punctuation">\</span>Eloquent<span class="token punctuation">\</span>Factories<span class="token punctuation">\</span>HasFactory</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">Illuminate<span class="token punctuation">\</span>Database<span class="token punctuation">\</span>Eloquent<span class="token punctuation">\</span>Model</span><span class="token punctuation">;</span>
+<span class="token keyword">class</span> <span class="token class-name-definition class-name">User</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">use</span> <span class="token package">HasFactory</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></span></code></pre>
+    <p>Este modelo representa la tabla "users" en la base de datos y utiliza el trait HasFactory, que proporciona
+        algunos métodos de fábrica útiles para la creación de registros de modelo.</p>
+    <p>Una vez que hayas creado el modelo, puedes utilizar Eloquent para realizar operaciones de CRUD en la tabla
+        correspondiente. Por ejemplo, para crear un nuevo registro de usuario, puedes hacer lo siguiente:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php"><span class="token variable">$user</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">User</span><span class="token punctuation">;</span>
+<span class="token variable">$user</span><span class="token operator">-&gt;</span><span class="token property">name</span> <span class="token operator">=</span> <span class="token string single-quoted-string">'John Doe'</span><span class="token punctuation">;</span>
+<span class="token variable">$user</span><span class="token operator">-&gt;</span><span class="token property">email</span> <span class="token operator">=</span> <span class="token string single-quoted-string">'john@example.com'</span><span class="token punctuation">;</span>
+<span class="token variable">$user</span><span class="token operator">-&gt;</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+    <p>Este código crea un nuevo objeto User, establece los valores de las propiedades "name" y "email" y luego guarda
+        el objeto en la base de datos utilizando el método save().</p>
+    <p>Para recuperar todos los registros de usuarios de la tabla "users", puedes hacer lo siguiente:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php"><span class="token variable">$users</span> <span class="token operator">=</span> <span class="token class-name static-context">User</span><span class="token operator">::</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+    <p>Este código recupera todos los registros de la tabla "users" y los devuelve como una colección de objetos User.
+    </p>
+    <p>Para actualizar un registro de usuario existente, puedes hacer lo siguiente:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php"><span class="token variable">$user</span> <span class="token operator">=</span> <span class="token class-name static-context">User</span><span class="token operator">::</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$user</span><span class="token operator">-&gt;</span><span class="token property">name</span> <span class="token operator">=</span> <span class="token string single-quoted-string">'Jane Doe'</span><span class="token punctuation">;</span>
+<span class="token variable">$user</span><span class="token operator">-&gt;</span><span class="token property">email</span> <span class="token operator">=</span> <span class="token string single-quoted-string">'jane@example.com'</span><span class="token punctuation">;</span>
+<span class="token variable">$user</span><span class="token operator">-&gt;</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+    <p>Este código busca el registro de usuario con el ID 1, actualiza los valores de las propiedades "name" y "email" y
+        luego guarda el objeto en la base de datos utilizando el método save().</p>
+    <p>Para eliminar un registro de usuario existente, puedes hacer lo siguiente:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php"><span class="token variable">$user</span> <span class="token operator">=</span> <span class="token class-name static-context">User</span><span class="token operator">::</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$user</span><span class="token operator">-&gt;</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+    <p>Este código busca el registro de usuario con el ID 1 y lo elimina de la base de datos utilizando el método
+        delete().</p>
+    <p>Con Eloquent, puedes realizar operaciones de CRUD en tu base de datos de forma elegante y fácil.</p>
+</div>
+
+<h2>
+    55. Actualizar tabla con migraciones
+</h2>
+
+<div class="ckeditor">
+    <p>En Laravel 10, puedes revertir cambios en la base de datos utilizando las migraciones. Las migraciones te
+        permiten deshacer y reaplicar los cambios en la base de datos de forma ordenada y controlada.</p>
+    <p>Para revertir una migración específica, puedes utilizar el comando "rollback" de Artisan. Por ejemplo, si tienes
+        una migración llamada "create_users_table" y deseas revertirla, puedes ejecutar el siguiente comando en la
+        terminal:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php">php artisan migrate<span class="token punctuation">:</span>rollback <span class="token operator">--</span>step<span class="token operator">=</span><span class="token number">1</span></code></pre>
+    <p>El parámetro "--step=1" indica que solo se debe revertir la última migración. Si deseas revertir varias
+        migraciones, puedes aumentar el valor de "--step" según el número de migraciones que deseas revertir.</p>
+    <p>También puedes utilizar el comando "rollback" sin el parámetro "--step" para revertir todas las migraciones que
+        se hayan aplicado. Por ejemplo:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php">php artisan migrate<span class="token punctuation">:</span>rollback</code></pre>
+    <p>Si deseas eliminar completamente todas las tablas de la base de datos y revertir todas las migraciones, puedes
+        utilizar el comando "reset". Este comando elimina todas las tablas de la base de datos y luego ejecuta todas las
+        migraciones de nuevo. Para utilizar el comando "reset", puedes ejecutar el siguiente comando en la terminal:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php">php artisan migrate<span class="token punctuation">:</span>reset</code></pre>
+    <p>Ten en cuenta que el comando "reset" eliminará todos los datos de la base de datos, por lo que debes tener
+        cuidado al utilizarlo en entornos de producción.</p>
+</div>
+
+<p>un ejemplo de una modificacion de una columna</p>
+
+<pre><code>
+    $table->string('slug')
+    ->nullable()
+    ->after('title')
+    ->unique();
+</code></pre>
+
+
+<h2>
+    56. Eliminar tablas <a href="https://laravel.com/docs/11.x/migrations#renaming-and-dropping-tables"
+        target="_blank">Renaming / Dropping Tables</a>
+</h2>
+
+<div class="ckeditor">
+    <p>Al comienzo del vídeo se borra una migración llamada <i><strong>rename_posts_table</strong></i> que no realizamos
+        en la unidad anterior, pero que no tiene misterio alguno.</p>
+    <p>Se trata de renombrar nuestra tabla <strong>posts</strong> por el nombre <strong>articles</strong>, siguiendo
+        estos pasos<strong>:</strong></p>
+    <ol>
+        <li>Creamos una nueva migración con <i><strong>artisan make:migration rename_posts_table</strong></i></li>
+    </ol>
+    <p>2. En el cuerpo de la función <i><strong>up()</strong></i> incluímos:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php"><span class="token class-name static-context">Schema</span><span class="token operator">::</span><span class="token function">rename</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'posts'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'articles'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+    <p>3. En el cuerpo de la función <i><strong>down()</strong></i> incluímos:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php"><span class="token class-name static-context">Schema</span><span class="token operator">::</span><span class="token function">rename</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'articles'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'posts'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+    <blockquote>
+        <p>Son la misma función, pero invirtiendo los nombres.</p>
+    </blockquote>
+    <p>&nbsp;</p>
+    <p>Y listo! Ejecutamos la migración con <i><strong>artisan migrate</strong></i> y habremos renombrado nuestra tabla.
+    </p>
+</div>
+
+
+<h2>
+    58. Modificadores de columna
+</h2>
+<div class="ckeditor">
+    <p>En este capítulo, te enseñaremos cómo utilizar los modificadores de columna en las migraciones de Laravel 10. Los
+        modificadores de columna son una forma poderosa de definir restricciones y valores predeterminados para los
+        campos de la tabla en la base de datos de tu aplicación Laravel.</p>
+    <p>Los modificadores de columna te permiten especificar restricciones para los campos de la tabla, como la longitud
+        máxima de un campo o si un campo es obligatorio o no. Además, también puedes utilizar los modificadores de
+        columna para establecer valores predeterminados para los campos, lo que significa que si no se proporciona
+        ningún valor, se utilizará el valor predeterminado que hayas establecido.</p>
+    <p>En Laravel 10, puedes utilizar varios tipos de modificadores de columna para definir las restricciones y valores
+        predeterminados de los campos de la tabla. Algunos de los modificadores más comunes incluyen "nullable", que
+        permite que un campo tenga un valor nulo, "unique", que asegura que un campo tenga un valor único, y "default",
+        que establece un valor predeterminado para un campo.</p>
+    <p>Además, Laravel también ofrece modificadores de columna personalizados que puedes utilizar para definir
+        restricciones y valores predeterminados específicos para tu aplicación. Con los modificadores de columna
+        personalizados, puedes definir tus propias reglas de validación y valores predeterminados para los campos de la
+        tabla.</p>
+    <p>En resumen, los modificadores de columna en las migraciones de Laravel 10 son una herramienta poderosa para
+        definir restricciones y valores predeterminados para los campos de la tabla en la base de datos de tu
+        aplicación. Con los modificadores de columna, puedes establecer reglas de validación específicas y asegurarte de
+        que los datos almacenados en tu base de datos cumplan con tus requisitos. Si deseas definir reglas de validación
+        y valores predeterminados para los campos de la tabla en tu aplicación Laravel, es fundamental que aprendas cómo
+        utilizar los modificadores de columna.</p>
+</div>
+
+
+
+<h3>
+    <ul>
+        <li><a href="https://laravel.com/docs/11.x/migrations#available-column-types" target="_blank">Available Column
+                Types</a></li>
+        <li><a href="https://laravel.com/docs/11.x/migrations#column-modifiers" target="_blank">Column Modifiers</a>
+        </li>
+        <li><a href="https://laravel.com/docs/11.x/migrations#column-modifiers" target="_blank">Modifying Columns</a>
+        </li>
+        <li><a href="https://laravel.com/docs/11.x/migrations#renaming-columns" target="_blank">Renaming Columns</a>
+        </li>
+        <pre><code data-theme="olaolu-palenight" data-lang="php" class="torchlight" style="background-color: #292D3E; --theme-selection-background: #7580B850;" id="clipText-103"><!-- Syntax highlighted by torchlight.dev --><div class="line"><span style="color: #FFCB8B;">Schema</span><span style="color: #89DDFF;">::</span><span style="color: #82AAFF;">table</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">'</span><span style="color: #C3E88D;">users</span><span style="color: #D9F5DD;">'</span><span style="color: #BFC7D5;">, </span><span style="color: #C792EA;">function</span><span style="color: #BFC7D5;"> </span><span style="color: #D9F5DD;">(</span><span style="color: #FFCB8B;">Blueprint</span><span style="color: #BFC7D5;"> </span><span style="color: #BEC5D4;">$table</span><span style="color: #D9F5DD;">)</span><span style="color: #BFC7D5;"> {</span></div><div class="line"><span style="color: #BFC7D5;">    </span><span style="color: #BEC5D4;">$table</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">renameColumn</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">'</span><span style="color: #C3E88D;">from</span><span style="color: #D9F5DD;">'</span><span style="color: #BFC7D5;">, </span><span style="color: #D9F5DD;">'</span><span style="color: #C3E88D;">to</span><span style="color: #D9F5DD;">'</span><span style="color: #BFC7D5;">);</span></div><div class="line"><span style="color: #BFC7D5;">});</span></div></code></pre>
+        <li><a href="https://laravel.com/docs/11.x/migrations#dropping-columns" target="_blank">Dropping Columns</a>
+        </li>
+        <li><a href="https://laravel.com/docs/11.x/migrations#indexes" target="_blank">Indexes</a></li>
+        <li><a href="https://laravel.com/docs/11.x/migrations#foreign-key-constraints" target="_blank">Foreign Key
+                Constraints</a></li>
+    </ul>
+</h3>
+
+
+<div>
+    El proyecto creaba por defecto las tablas de tipo MyISAM y no permite relaciones.
+    <br>
+    Para cambiarlo, en el fichero: <b>PROYECTO/config/database.php</b>
+    <br>
+    Buscar tu tipo de conexión y sustituir:
+
+    'engine' => 'null',
+
+    Por: 'engine' => 'InnoDB',
+</div>
+
+
+
+<h3>
+    TIPS para ejecutar migraciones de algunas tablas
+</h3>
+
+<a
+    href="https://github.com/spatie/holidays?tab=readme-ov-file">https://github.com/spatie/holidays?tab=readme-ov-file</a>
+<a href="https://alpinejs.dev/component/carousel">https://alpinejs.dev/component/carousel</a>
+
+<ul>
+    <li> git pull origin master </li>
+    <li> composer install </li>
+    <li> php artisan migrate --path=/database/migrations/2024_12_04_223833_create_non_working_days_table.php </li>
+    <li> php artisan migrate --path=/database/migrations/2024_12_15_235540_create_claim_options_table.php </li>
+    <li> php artisan migrate --path=/database/migrations/2024_12_16_002448_create_claim_specification_options_table.php
+    </li>
+    <li> php artisan db:seed --class=ClaimOptionSeeder </li>
+    <li> php artisan db:seed --class=ClaimSpecificationOptionSeeder </li>
+    <li> php artisan holidays:sync </li>
+    <li> php artisan weekends:add </li>
+</ul>

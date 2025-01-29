@@ -1,0 +1,118 @@
+<h2>
+    94. Relación Uno a Uno
+</h2>
+
+<div class="ckeditor">
+    <p>Cuando trabajas con Laravel 10, es común necesitar establecer relaciones entre los modelos de la base de datos.
+        Una de estas relaciones es la relación Uno a Uno, donde un registro de un modelo está relacionado con un solo
+        registro de otro modelo. En este capítulo, aprenderás cómo establecer una relación Uno a Uno en Laravel 10 y
+        cómo acceder a los datos relacionados.</p>
+    <p>Para establecer una relación Uno a Uno en Laravel 10, debes definir dos modelos y una clave foránea en uno de
+        ellos que haga referencia al otro modelo. Por ejemplo, supongamos que tienes dos modelos "Usuario" y "Perfil",
+        donde cada usuario tiene un único perfil. En el modelo "Usuario", debes agregar la siguiente función para
+        definir la relación:</p>
+    <pre class="language-php" tabindex="0"><code class="language-php"><span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Models</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">Illuminate<span class="token punctuation">\</span>Database<span class="token punctuation">\</span>Eloquent<span class="token punctuation">\</span>Model</span><span class="token punctuation">;</span>
+<span class="token keyword">class</span> <span class="token class-name-definition class-name">Usuario</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">perfil</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">return</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">hasOne</span><span class="token punctuation">(</span><span class="token class-name static-context">Perfil</span><span class="token operator">::</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+    <p>En este ejemplo, la función "perfil()" utiliza el método "hasOne()" para definir la relación Uno a Uno entre el
+        modelo "Usuario" y el modelo "Perfil". Laravel asume que la clave foránea para esta relación es "usuario_id" en
+        la tabla "perfiles".</p>
+    <p>A continuación, en el modelo "Perfil", debes agregar una función que haga referencia a la relación inversa. Esta
+        función es necesaria para acceder a los datos del usuario relacionado desde el perfil. Por ejemplo:</p>
+    <pre class="language-php" tabindex="0"><code class="language-php"><span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Models</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">Illuminate<span class="token punctuation">\</span>Database<span class="token punctuation">\</span>Eloquent<span class="token punctuation">\</span>Model</span><span class="token punctuation">;</span>
+<span class="token keyword">class</span> <span class="token class-name-definition class-name">Perfil</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">usuario</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">return</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">belongsTo</span><span class="token punctuation">(</span><span class="token class-name static-context">Usuario</span><span class="token operator">::</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+    <p>En este ejemplo, la función "usuario()" utiliza el método "belongsTo()" para definir la relación inversa Uno a
+        Uno entre el modelo "Perfil" y el modelo "Usuario". Laravel asume que la clave foránea para esta relación es
+        "usuario_id" en la tabla "perfiles".</p>
+    <p>Ahora que has definido la relación Uno a Uno en tus modelos, puedes acceder a los datos relacionados utilizando
+        la función correspondiente. Por ejemplo, para obtener el perfil de un usuario en particular, puedes hacer lo
+        siguiente:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php"><span class="token variable">$usuario</span> <span class="token operator">=</span> <span class="token class-name static-context">Usuario</span><span class="token operator">::</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$perfil</span> <span class="token operator">=</span> <span class="token variable">$usuario</span><span class="token operator">-&gt;</span><span class="token property">perfil</span><span class="token punctuation">;</span></code></pre>
+    <p>En este ejemplo, la variable "$usuario" contiene un objeto de modelo "Usuario" con el ID 1. La variable "$perfil"
+        contiene el perfil asociado al usuario.</p>
+    <p>En resumen, establecer una relación Uno a Uno en Laravel 10 es fácil. Solo necesitas definir las funciones
+        "hasOne()" y "belongsTo()" en los modelos correspondientes y una clave foránea en uno de ellos que haga
+        referencia al otro modelo. Una vez que has establecido la relación, puedes acceder a los datos relacionados
+        utilizando las funciones correspondientes.</p>
+</div>
+
+<h2>
+    95. Relación Uno a Muchos
+</h2>
+
+<div class="ckeditor">
+    <p>Si estás trabajando en un proyecto de Laravel 10 y necesitas establecer una relación Uno a Muchos entre dos
+        modelos de la base de datos, has llegado al lugar adecuado. En este capítulo aprenderás todo lo que necesitas
+        saber sobre cómo definir y acceder a esta relación en Laravel 10.</p>
+    <p>La relación Uno a Muchos es una de las más comunes en las bases de datos relacionales. Se trata de una relación
+        en la que un registro de una tabla (modelo) está relacionado con varios registros de otra tabla (modelo). En
+        Laravel 10, puedes definir esta relación mediante el uso de métodos en los modelos correspondientes.</p>
+    <p>Para definir una relación Uno a Muchos en Laravel 10, debes establecer el método <strong>hasMany</strong> en el
+        modelo que tiene varios registros relacionados con otro modelo que tiene solo un registro. Este método acepta
+        como argumento el nombre del modelo relacionado. Por ejemplo, si tienes un modelo <strong>User</strong> y un
+        modelo <strong>Post</strong>, y cada usuario tiene varios posts, debes establecer el método
+        <strong>hasMany</strong> en el modelo <strong>User</strong> de la siguiente manera:</p>
+    <pre class="language-php" tabindex="0"><code class="language-php"><span class="token keyword">class</span> <span class="token class-name-definition class-name">User</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">posts</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">return</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">hasMany</span><span class="token punctuation">(</span><span class="token class-name static-context">Post</span><span class="token operator">::</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+    <p>Una vez definida la relación, puedes acceder a los datos relacionados mediante el uso del método
+        <strong>posts</strong> en una instancia del modelo <strong>User</strong>. Por ejemplo, si deseas obtener todos
+        los posts de un usuario con un ID específico, puedes hacerlo de la siguiente manera:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php"><span class="token variable">$user</span> <span class="token operator">=</span> <span class="token class-name static-context">User</span><span class="token operator">::</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$posts</span> <span class="token operator">=</span> <span class="token variable">$user</span><span class="token operator">-&gt;</span><span class="token property">posts</span><span class="token punctuation">;</span></code></pre>
+    <p>En resumen, si necesitas establecer una relación Uno a Muchos en Laravel 10, puedes hacerlo de manera sencilla
+        mediante el uso del método <strong>hasMany</strong> en el modelo correspondiente. Una vez definida la relación,
+        puedes acceder a los datos relacionados mediante el uso de métodos en una instancia del modelo principal.
+        Esperamos que esta información te haya sido útil en tu proyecto de Laravel 10.</p>
+</div>
+
+<h2>
+    96. Relación Uno a Uno a través de
+</h2>
+
+<div class="ckeditor">
+    <p>Si estás trabajando en un proyecto de Laravel 10 y necesitas establecer una relación Uno a Uno a través de entre tres modelos de la base de datos, estás en el lugar correcto. En este capítulo, te enseñaremos cómo definir y acceder a esta relación en Laravel 10.</p><p>La relación Uno a Uno a través de se utiliza cuando tienes tres modelos relacionados entre sí, y quieres establecer una relación directa entre dos de ellos. En Laravel 10, puedes definir esta relación mediante el uso de métodos en los modelos correspondientes.</p><p>Para establecer una relación Uno a Uno a través de en Laravel 10, debes crear una tabla de relación que contenga las claves foráneas de ambos modelos, y establecer los métodos <strong>hasOneThrough</strong> en el modelo correspondiente. Por ejemplo, si tienes un modelo <strong>User</strong>, un modelo <strong>Country</strong> y un modelo <strong>City</strong>, y cada usuario tiene una ciudad y cada ciudad pertenece a un país, debes establecer el método <strong>hasOneThrough</strong> en el modelo <strong>User</strong> de la siguiente manera:</p><pre class="language-php" tabindex="0"><code class="language-php"><span class="token keyword">class</span> <span class="token class-name-definition class-name">User</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">country</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">return</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">hasOneThrough</span><span class="token punctuation">(</span><span class="token class-name static-context">Country</span><span class="token operator">::</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token class-name static-context">City</span><span class="token operator">::</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'country_id'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'id'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'city_id'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre><p>En este ejemplo, el método <strong>hasOneThrough</strong> establece que la relación Uno a Uno a través de se establece entre el modelo <strong>User</strong> y el modelo <strong>Country</strong>, pasando por el modelo <strong>City</strong>. Además, se especifica el nombre de las columnas de las claves foráneas.</p><p>Una vez definida la relación, puedes acceder a los datos relacionados mediante el uso de métodos en una instancia del modelo principal. Por ejemplo, si deseas obtener el país de un usuario con un ID específico, puedes hacerlo de la siguiente manera:</p><pre class="language-php" tabindex="0"><code class="language-php"><span class="token variable">$user</span> <span class="token operator">=</span> <span class="token class-name static-context">User</span><span class="token operator">::</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$country</span> <span class="token operator">=</span> <span class="token variable">$user</span><span class="token operator">-&gt;</span><span class="token property">country</span><span class="token punctuation">;</span></code></pre><p>En resumen, si necesitas establecer una relación Uno a Uno a través de en Laravel 10, debes crear una tabla de relación y establecer el método <strong>hasOneThrough</strong> en el modelo correspondiente. Una vez definida la relación, puedes acceder a los datos relacionados mediante el uso de métodos en una instancia del modelo principal. Esperamos que esta información te haya sido útil en tu proyecto de Laravel 10.</p>
+</div>
+
+
+<h2>
+    97. Relación Uno a Muchos a través de
+</h2>
+
+<div class="ckeditor">
+    <p>Si estás trabajando en un proyecto de Laravel 10 y necesitas establecer una relación Uno a Muchos a través de entre tres modelos de la base de datos, estás en el lugar correcto. En este capítulo, te enseñaremos cómo definir y acceder a esta relación en Laravel 10.</p><p>La relación Uno a Muchos a través de se utiliza cuando tienes tres modelos relacionados entre sí, y quieres establecer una relación directa entre dos de ellos, donde un modelo tiene varios registros relacionados en el tercer modelo. En Laravel 10, puedes definir esta relación mediante el uso de métodos en los modelos correspondientes.</p><p>Para establecer una relación Uno a Muchos a través de en Laravel 10, debes crear una tabla de relación que contenga las claves foráneas de ambos modelos, y establecer los métodos <strong>hasManyThrough</strong> en el modelo correspondiente. Por ejemplo, si tienes un modelo <strong>User</strong>, un modelo <strong>Country</strong> y un modelo <strong>City</strong>, y cada país tiene varias ciudades, y cada ciudad tiene varios usuarios, debes establecer el método <strong>hasManyThrough</strong> en el modelo <strong>User</strong> de la siguiente manera:</p><pre class="language-php" tabindex="0"><code class="language-php"><span class="token keyword">class</span> <span class="token class-name-definition class-name">User</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">cities</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">return</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">hasManyThrough</span><span class="token punctuation">(</span><span class="token class-name static-context">City</span><span class="token operator">::</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token class-name static-context">Country</span><span class="token operator">::</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'id'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'country_id'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'id'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'id'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre><p>En este ejemplo, el método <strong>hasManyThrough</strong> establece que la relación Uno a Muchos a través de se establece entre el modelo <strong>User</strong> y el modelo <strong>City</strong>, pasando por el modelo <strong>Country</strong>. Además, se especifica el nombre de las columnas de las claves foráneas.</p><p>Una vez definida la relación, puedes acceder a los datos relacionados mediante el uso de métodos en una instancia del modelo principal. Por ejemplo, si deseas obtener todas las ciudades de un país de un usuario con un ID específico, puedes hacerlo de la siguiente manera:</p><pre class="language-php" tabindex="0"><code class="language-php"><span class="token variable">$user</span> <span class="token operator">=</span> <span class="token class-name static-context">User</span><span class="token operator">::</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$cities</span> <span class="token operator">=</span> <span class="token variable">$user</span><span class="token operator">-&gt;</span><span class="token property">cities</span><span class="token punctuation">;</span></code></pre><p>En resumen, si necesitas establecer una relación Uno a Muchos a través de en Laravel 10, debes crear una tabla de relación y establecer el método <strong>hasManyThrough</strong> en el modelo correspondiente. Una vez definida la relación, puedes acceder a los datos relacionados mediante el uso de métodos en una instancia del modelo principal. Esperamos que esta información te haya sido útil en tu proyecto de Laravel 10.</p>
+</div>
