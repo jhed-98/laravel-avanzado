@@ -44,6 +44,7 @@ class Post extends Model
     //! Relacion muchos a muchos polimorfica
     public function tags()
     {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this->morphToMany(Tag::class, 'taggable')
+            ->withTimestamps();
     }
 }
