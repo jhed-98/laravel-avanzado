@@ -16,9 +16,11 @@ Route::resource('articulos', PostController::class)
 Route::view('/articulos-old', 'posts.index-old');
 
 Route::get('prueba', function () {
-    $data = \App\Models\Course::find(1);
+    $data = \App\Models\Post::find(1);
 
-    return $data->lessons;
+    // $data->tags()->attach([1 => ['data' => 'hola']]);
+
+    return $data->tags;
 });
 
 //! Agrupar rutas en un mismo controlador
