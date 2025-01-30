@@ -18,6 +18,10 @@ class PostSeeder extends Seeder
             $post->image()->create([
                 'url' => 'posts/' . $post->id . '.jpg',
             ]);
+
+            $post->comments()->create([
+                'body' => 'Un comentario de prueba',
+            ]);
         });
     }
 }

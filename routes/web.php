@@ -20,7 +20,7 @@ Route::get('prueba', function () {
 
     // $data->tags()->attach([1 => ['data' => 'hola']]);
 
-    return $data->tags;
+    return $data->comments;
 });
 
 //! Agrupar rutas en un mismo controlador

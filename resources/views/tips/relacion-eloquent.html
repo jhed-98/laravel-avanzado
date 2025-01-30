@@ -232,7 +232,8 @@
         que contenga las claves foráneas de ambos modelos, y establecer los métodos <strong>morphOne</strong> y
         <strong>morphTo</strong> en los modelos correspondientes. Por ejemplo, si tienes un modelo
         <strong>Comment</strong>, un modelo <strong>Post</strong> y un modelo <strong>Video</strong>, y cada uno puede
-        tener un único <strong>Comment</strong>, debes establecer los métodos de la siguiente manera:</p>
+        tener un único <strong>Comment</strong>, debes establecer los métodos de la siguiente manera:
+    </p>
     <pre class="language-php" tabindex="0"><code class="language-php"><span class="token keyword">class</span> <span class="token class-name-definition class-name">Comment</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span>
 <span class="token punctuation">{</span>
 <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">commentable</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -258,7 +259,8 @@
         relación es polimórfica, y el método <strong>morphOne</strong> en los modelos <strong>Post</strong> y
         <strong>Video</strong> establece la relación Uno a Uno polimórfica entre el modelo <strong>Comment</strong> y el
         modelo correspondiente. Además, se especifica el nombre de la columna que contiene el tipo de modelo y la clave
-        foránea del modelo en la tabla de relación polimórfica.</p>
+        foránea del modelo en la tabla de relación polimórfica.
+    </p>
     <p>Una vez definida la relación, puedes acceder a los datos relacionados mediante el uso de métodos en una instancia
         del modelo principal. Por ejemplo, si deseas obtener el comentario de un post con un ID específico, puedes
         hacerlo de la siguiente manera:</p>
@@ -267,6 +269,63 @@
 <span class="token variable">$comment</span> <span class="token operator">=</span> <span class="token variable">$post</span><span class="token operator">-&gt;</span><span class="token property">comment</span><span class="token punctuation">;</span></code></pre>
     <p>En resumen, si necesitas establecer relaciones Uno a Uno Polimórficas en Laravel 10, debes crear una tabla de
         relación polimórfica y establecer los métodos <strong>morphOne</strong> y <strong>morphTo</strong> en los
+        modelos correspondientes. Una vez definida la relación, puedes acceder a los datos relacionados mediante el uso
+        de métodos en una instancia del modelo principal. Esperamos que esta información te haya sido útil en tu
+        proyecto de Laravel 10.</p>
+</div>
+
+
+<h2>
+    100. Relaciones Uno a Muchos Polimórficas
+</h2>
+
+<div class="ckeditor">
+    <p>Si estás trabajando en un proyecto de Laravel 10 y necesitas establecer relaciones Uno a Muchos Polimórficas
+        entre dos o más modelos de la base de datos, estás en el lugar correcto. En este capítulo, te enseñaremos cómo
+        definir y acceder a esta relación en Laravel 10.</p>
+    <p>Las relaciones Uno a Muchos Polimórficas se utilizan cuando varios modelos necesitan estar relacionados con otro
+        modelo de forma individual, y cada uno de ellos puede tener varios registros relacionados en la tabla de
+        relación. En Laravel 10, puedes definir esta relación mediante el uso de métodos en los modelos
+        correspondientes.</p>
+    <p>Para establecer una relación Uno a Muchos Polimórfica en Laravel 10, debes crear una tabla de relación
+        polimórfica que contenga las claves foráneas de ambos modelos, y establecer los métodos
+        <strong>morphMany</strong> y <strong>morphTo</strong> en los modelos correspondientes. Por ejemplo, si tienes un
+        modelo <strong>Comment</strong>, un modelo <strong>Post</strong> y un modelo <strong>Video</strong>, y cada uno
+        puede tener varios <strong>Comment</strong>, debes establecer los métodos de la siguiente manera:</p>
+    <pre class="language-php" tabindex="0"><code class="language-php"><span class="token keyword">class</span> <span class="token class-name-definition class-name">Comment</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">commentable</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">return</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">morphTo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name-definition class-name">Post</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">comments</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">return</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">morphMany</span><span class="token punctuation">(</span><span class="token class-name static-context">Comment</span><span class="token operator">::</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'commentable'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name-definition class-name">Video</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">comments</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">return</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">morphMany</span><span class="token punctuation">(</span><span class="token class-name static-context">Comment</span><span class="token operator">::</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'commentable'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+    <p>En este ejemplo, el método <strong>morphTo</strong> en el modelo <strong>Comment</strong> establece que la
+        relación es polimórfica, y el método <strong>morphMany</strong> en los modelos <strong>Post</strong> y
+        <strong>Video</strong> establece la relación Uno a Muchos Polimórfica entre el modelo <strong>Comment</strong> y
+        el modelo correspondiente. Además, se especifica el nombre de la columna que contiene el tipo de modelo y la
+        clave foránea del modelo en la tabla de relación polimórfica.</p>
+    <p>Una vez definida la relación, puedes acceder a los datos relacionados mediante el uso de métodos en una instancia
+        del modelo principal. Por ejemplo, si deseas obtener todos los comentarios de un video con un ID específico,
+        puedes hacerlo de la siguiente manera:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php"><span class="token variable">$video</span> <span class="token operator">=</span> <span class="token class-name static-context">Video</span><span class="token operator">::</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$comments</span> <span class="token operator">=</span> <span class="token variable">$video</span><span class="token operator">-&gt;</span><span class="token property">comments</span><span class="token punctuation">;</span></code></pre>
+    <p>En resumen, si necesitas establecer relaciones Uno a Muchos Polimórficas en Laravel 10, debes crear una tabla de
+        relación polimórfica y establecer los métodos <strong>morphMany</strong> y <strong>morphTo</strong> en los
         modelos correspondientes. Una vez definida la relación, puedes acceder a los datos relacionados mediante el uso
         de métodos en una instancia del modelo principal. Esperamos que esta información te haya sido útil en tu
         proyecto de Laravel 10.</p>

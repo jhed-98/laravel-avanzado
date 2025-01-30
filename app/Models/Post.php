@@ -34,4 +34,10 @@ class Post extends Model
     {
         return $this->morphOne(Image::class, 'imageable');
     }
+
+    //! Relacion uno a muchos polimorfica
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }
