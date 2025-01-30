@@ -17,26 +17,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(100)->create()->each(function ($user) {
-            Profile::factory(1)->create(['user_id' => $user->id])->each(function ($profile) {
-                Address::factory(1)->create(['profile_id' => $profile->id]);
-            });
-        });
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => Hash::make('password'),
-        ]);
-
-        Tag::factory(10)->create();
 
         $this->call(
             [
+                UserSeeder::class,
                 CategorySeeder::class,
                 PostSeeder::class,
                 CourseSeeder::class,
             ]
         );
+
+        Tag::factory(10)->create();
+
+        $this->call(CourseSeeder::class,);
     }
 }

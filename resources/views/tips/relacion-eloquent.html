@@ -351,7 +351,8 @@
         <strong>morphToMany</strong> y <strong>morphedByMany</strong> en los modelos correspondientes. Por ejemplo, si
         tienes un modelo <strong>Tag</strong>, un modelo <strong>Post</strong> y un modelo <strong>Video</strong>, y
         cada uno puede tener varias etiquetas y varias etiquetas pueden estar relacionadas con varios modelos, debes
-        establecer los métodos de la siguiente manera:</p>
+        establecer los métodos de la siguiente manera:
+    </p>
     <pre class="language-php" tabindex="0"><code class="language-php"><span class="token keyword">class</span> <span class="token class-name-definition class-name">Tag</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span>
 <span class="token punctuation">{</span>
 <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">posts</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -382,7 +383,8 @@
         el modelo correspondiente. Además, se especifica el nombre de la columna que contiene el tipo de modelo y la
         clave foránea del modelo en la tabla de relación polimórfica. Por otro lado, el método
         <strong>morphedByMany</strong> en el modelo <strong>Tag</strong> establece la relación Muchos a Muchos
-        Polimórfica inversa entre el modelo <strong>Tag</strong> y el modelo correspondiente.</p>
+        Polimórfica inversa entre el modelo <strong>Tag</strong> y el modelo correspondiente.
+    </p>
     <p>Una vez definida la relación, puedes acceder a los datos relacionados mediante el uso de métodos en una instancia
         del modelo principal. Por ejemplo, si deseas obtener todas las etiquetas de un video con un ID específico,
         puedes hacerlo de la siguiente manera:</p>
@@ -394,4 +396,92 @@
         en los modelos correspondientes. Una vez definida la relación, puedes acceder a los datos relacionados mediante
         el uso de métodos en una instancia del modelo principal. Esperamos que esta información te haya sido útil en tu
         proyecto de Laravel 10.</p>
+</div>
+
+
+<h2>
+    102. Consultas a la Relación
+</h2>
+
+<div class="ckeditor">
+    <p>En Laravel 10, las relaciones entre modelos de la base de datos permiten recuperar datos relacionados de forma
+        sencilla y eficiente. Una vez definida la relación, podemos utilizar los métodos de consulta para recuperar los
+        datos que necesitamos.</p>
+    <p>Si queremos recuperar los datos relacionados de un solo modelo, podemos utilizar el método
+        <strong>with()</strong> en una consulta. Este método acepta como argumento el nombre de la relación y carga los
+        datos relacionados junto con el modelo original. Por ejemplo, si tenemos un modelo <strong>User</strong> con una
+        relación <strong>posts()</strong> a través del modelo <strong>Post</strong>, podemos cargar los datos
+        relacionados de la siguiente manera:
+    </p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php"><span class="token variable">$user</span> <span class="token operator">=</span> <span class="token class-name static-context">User</span><span class="token operator">::</span><span class="token function">with</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'posts'</span><span class="token punctuation">)</span><span class="token operator">-&gt;</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+    <p>Este código carga los posts relacionados del usuario con ID 1. Podemos acceder a los datos relacionados
+        utilizando la propiedad <strong>posts</strong> del modelo:</p>
+    <pre class="language-php" tabindex="0"><code class="language-php"><span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$user</span><span class="token operator">-&gt;</span><span class="token property">posts</span> <span class="token keyword">as</span> <span class="token variable">$post</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">echo</span> <span class="token variable">$post</span><span class="token operator">-&gt;</span><span class="token property">title</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+    <p>Si queremos hacer una consulta que incluya los datos relacionados de varios modelos, podemos encadenar los
+        métodos <strong>with()</strong> y <strong>where()</strong> en la consulta. Por ejemplo, si tenemos un modelo
+        <strong>User</strong> con una relación <strong>posts()</strong> a través del modelo <strong>Post</strong>, y un
+        modelo <strong>Comment</strong> con una relación <strong>user()</strong> a través del modelo
+        <strong>User</strong>, podemos cargar los datos relacionados de esta manera:
+    </p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php"><span class="token variable">$comments</span> <span class="token operator">=</span> <span class="token class-name static-context">Comment</span><span class="token operator">::</span><span class="token function">with</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'user.posts'</span><span class="token punctuation">)</span>
+<span class="token operator">-&gt;</span><span class="token function">where</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'created_at'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'&gt;'</span><span class="token punctuation">,</span> <span class="token class-name static-context">Carbon</span><span class="token operator">::</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-&gt;</span><span class="token function">subDays</span><span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token operator">-&gt;</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+    <p>Este código carga los usuarios y sus posts relacionados para los comentarios creados hace menos de 7 días.
+        Podemos acceder a los datos relacionados de la misma manera que en el ejemplo anterior:</p>
+    <pre class="language-php" tabindex="0"><code class="language-php"><span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$comments</span> <span class="token keyword">as</span> <span class="token variable">$comment</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">echo</span> <span class="token variable">$comment</span><span class="token operator">-&gt;</span><span class="token property">user</span><span class="token operator">-&gt;</span><span class="token property">name</span><span class="token punctuation">;</span>
+<span class="token keyword">echo</span> <span class="token variable">$comment</span><span class="token operator">-&gt;</span><span class="token property">user</span><span class="token operator">-&gt;</span><span class="token property">posts</span><span class="token operator">-&gt;</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+    <p>En resumen, en Laravel 10 podemos hacer consultas a las relaciones utilizando los métodos <strong>with()</strong>
+        y encadenando otros métodos de consulta según nuestras necesidades. Esto nos permite recuperar los datos
+        relacionados de forma eficiente y utilizarlos en nuestra aplicación.</p>
+</div>
+
+<h2>
+    103. Seeders
+</h2>
+
+<div class="ckeditor">
+    <p>En este capítulo, aprenderás cómo utilizar seeders en Laravel 10 para poblar tu base de datos con datos de
+        prueba.</p>
+    <p>Los seeders son una herramienta muy útil en Laravel para poblar tu base de datos con datos de prueba, lo que
+        facilita el proceso de desarrollo y pruebas de tu aplicación. Los seeders son clases de PHP que puedes utilizar
+        para insertar datos en tu base de datos a través de una interfaz sencilla y programática.</p>
+    <p>Para crear un seeder en Laravel, utiliza el comando <strong>make:seeder</strong>. Por ejemplo, para crear un
+        seeder para la tabla "users", puedes utilizar el siguiente comando:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php">php artisan make<span class="token punctuation">:</span>seeder UsersTableSeeder</code></pre>
+    <p>Este comando creará un nuevo archivo de seeder en el directorio <strong>database/seeds</strong>.</p>
+    <p>Dentro de tu seeder, puedes utilizar el método <strong>DB::table()</strong> para interactuar con la tabla de base
+        de datos correspondiente y utilizar el método <strong>insert()</strong> para insertar registros en la tabla. Por
+        ejemplo, para insertar un nuevo usuario en la tabla "users", puedes utilizar el siguiente código:</p>
+    <pre class="language-php" tabindex="0"><code class="language-php"><span class="token keyword">use</span> <span class="token package">Illuminate<span class="token punctuation">\</span>Database<span class="token punctuation">\</span>Seeder</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">Illuminate<span class="token punctuation">\</span>Support<span class="token punctuation">\</span>Facades<span class="token punctuation">\</span>DB</span><span class="token punctuation">;</span>
+<span class="token keyword">class</span> <span class="token class-name-definition class-name">UsersTableSeeder</span> <span class="token keyword">extends</span> <span class="token class-name">Seeder</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token class-name static-context">DB</span><span class="token operator">::</span><span class="token function">table</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'users'</span><span class="token punctuation">)</span><span class="token operator">-&gt;</span><span class="token function">insert</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+<span class="token string single-quoted-string">'name'</span> <span class="token operator">=&gt;</span> <span class="token string single-quoted-string">'John Doe'</span><span class="token punctuation">,</span>
+<span class="token string single-quoted-string">'email'</span> <span class="token operator">=&gt;</span> <span class="token string single-quoted-string">'johndoe@example.com'</span><span class="token punctuation">,</span>
+<span class="token string single-quoted-string">'password'</span> <span class="token operator">=&gt;</span> <span class="token function">bcrypt</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'secret'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+    <p>Una vez que hayas creado tus seeders, puedes utilizar el comando <strong>db:seed</strong> para ejecutarlos y
+        poblar tu base de datos con datos de prueba. Por ejemplo, para ejecutar el seeder
+        <strong>UsersTableSeeder</strong>, puedes utilizar el siguiente comando:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php">php artisan db<span class="token punctuation">:</span>seed <span class="token operator">--</span><span class="token keyword">class</span><span class="token operator">=</span>UsersTableSeeder</code></pre>
+    <p>También puedes utilizar el comando <strong>db:seed</strong> sin argumentos para ejecutar todos los seeders en tu
+        aplicación.</p>
+    <p>Además, es posible utilizar el comando <strong>make:factory</strong> para generar factories de modelos y así
+        crear datos de prueba de manera automatizada. Luego, en los seeders, puedes utilizar estas factories para crear
+        y relacionar modelos de manera rápida y sencilla.</p>
+    <p>En resumen, los seeders son una herramienta poderosa para poblar tu base de datos con datos de prueba en Laravel.
+        Al utilizarlos, puedes agilizar el proceso de desarrollo y pruebas de tu aplicación de manera significativa.</p>
 </div>
