@@ -28,4 +28,10 @@ class Post extends Model
             ->withPivot('data')
             ->withTimestamps();
     }
+
+    //! Relacion uno a uno polimorfica
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
 }
