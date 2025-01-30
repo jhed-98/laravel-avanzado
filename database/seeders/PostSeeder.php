@@ -21,6 +21,7 @@ class PostSeeder extends Seeder
 
             $post->comments()->create([
                 'body' => 'Un comentario de prueba',
+                'user_id' => 1,
             ]);
         });
     }

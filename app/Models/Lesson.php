@@ -12,4 +12,9 @@ class Lesson extends Model
 
     protected $fillable = ['title'];
 
+    //! Relacion uno a muchos polimorfica
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

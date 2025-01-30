@@ -291,7 +291,8 @@
         polimórfica que contenga las claves foráneas de ambos modelos, y establecer los métodos
         <strong>morphMany</strong> y <strong>morphTo</strong> en los modelos correspondientes. Por ejemplo, si tienes un
         modelo <strong>Comment</strong>, un modelo <strong>Post</strong> y un modelo <strong>Video</strong>, y cada uno
-        puede tener varios <strong>Comment</strong>, debes establecer los métodos de la siguiente manera:</p>
+        puede tener varios <strong>Comment</strong>, debes establecer los métodos de la siguiente manera:
+    </p>
     <pre class="language-php" tabindex="0"><code class="language-php"><span class="token keyword">class</span> <span class="token class-name-definition class-name">Comment</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span>
 <span class="token punctuation">{</span>
 <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">commentable</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -317,7 +318,8 @@
         relación es polimórfica, y el método <strong>morphMany</strong> en los modelos <strong>Post</strong> y
         <strong>Video</strong> establece la relación Uno a Muchos Polimórfica entre el modelo <strong>Comment</strong> y
         el modelo correspondiente. Además, se especifica el nombre de la columna que contiene el tipo de modelo y la
-        clave foránea del modelo en la tabla de relación polimórfica.</p>
+        clave foránea del modelo en la tabla de relación polimórfica.
+    </p>
     <p>Una vez definida la relación, puedes acceder a los datos relacionados mediante el uso de métodos en una instancia
         del modelo principal. Por ejemplo, si deseas obtener todos los comentarios de un video con un ID específico,
         puedes hacerlo de la siguiente manera:</p>
@@ -328,5 +330,68 @@
         relación polimórfica y establecer los métodos <strong>morphMany</strong> y <strong>morphTo</strong> en los
         modelos correspondientes. Una vez definida la relación, puedes acceder a los datos relacionados mediante el uso
         de métodos en una instancia del modelo principal. Esperamos que esta información te haya sido útil en tu
+        proyecto de Laravel 10.</p>
+</div>
+
+
+<h2>
+    101. Relación Muchos a Muchos Polimórficas
+</h2>
+
+<div class="ckeditor">
+    <p>Si estás trabajando en un proyecto de Laravel 10 y necesitas establecer relaciones Muchos a Muchos Polimórficas
+        entre dos o más modelos de la base de datos, estás en el lugar correcto. En este capítulo, te enseñaremos cómo
+        definir y acceder a esta relación en Laravel 10.</p>
+    <p>Las relaciones Muchos a Muchos Polimórficas se utilizan cuando varios modelos necesitan estar relacionados con
+        otro modelo de forma individual, y cada uno de ellos puede tener varios registros relacionados en la tabla de
+        relación. En Laravel 10, puedes definir esta relación mediante el uso de métodos en los modelos
+        correspondientes.</p>
+    <p>Para establecer una relación Muchos a Muchos Polimórfica en Laravel 10, debes crear una tabla de relación
+        polimórfica que contenga las claves foráneas de ambos modelos, y establecer los métodos
+        <strong>morphToMany</strong> y <strong>morphedByMany</strong> en los modelos correspondientes. Por ejemplo, si
+        tienes un modelo <strong>Tag</strong>, un modelo <strong>Post</strong> y un modelo <strong>Video</strong>, y
+        cada uno puede tener varias etiquetas y varias etiquetas pueden estar relacionadas con varios modelos, debes
+        establecer los métodos de la siguiente manera:</p>
+    <pre class="language-php" tabindex="0"><code class="language-php"><span class="token keyword">class</span> <span class="token class-name-definition class-name">Tag</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">posts</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">return</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">morphedByMany</span><span class="token punctuation">(</span><span class="token class-name static-context">Post</span><span class="token operator">::</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'taggable'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">videos</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">return</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">morphedByMany</span><span class="token punctuation">(</span><span class="token class-name static-context">Video</span><span class="token operator">::</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'taggable'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name-definition class-name">Post</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">tags</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">return</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">morphToMany</span><span class="token punctuation">(</span><span class="token class-name static-context">Tag</span><span class="token operator">::</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'taggable'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name-definition class-name">Video</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">tags</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">return</span> <span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token function">morphToMany</span><span class="token punctuation">(</span><span class="token class-name static-context">Tag</span><span class="token operator">::</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'taggable'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+    <p>En este ejemplo, el método <strong>morphToMany</strong> en los modelos <strong>Post</strong> y
+        <strong>Video</strong> establece la relación Muchos a Muchos Polimórfica entre el modelo <strong>Tag</strong> y
+        el modelo correspondiente. Además, se especifica el nombre de la columna que contiene el tipo de modelo y la
+        clave foránea del modelo en la tabla de relación polimórfica. Por otro lado, el método
+        <strong>morphedByMany</strong> en el modelo <strong>Tag</strong> establece la relación Muchos a Muchos
+        Polimórfica inversa entre el modelo <strong>Tag</strong> y el modelo correspondiente.</p>
+    <p>Una vez definida la relación, puedes acceder a los datos relacionados mediante el uso de métodos en una instancia
+        del modelo principal. Por ejemplo, si deseas obtener todas las etiquetas de un video con un ID específico,
+        puedes hacerlo de la siguiente manera:</p>
+    <pre class="language-php"
+        tabindex="0"><code class="language-php"><span class="token variable">$video</span> <span class="token operator">=</span> <span class="token class-name static-context">Video</span><span class="token operator">::</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$tags</span> <span class="token operator">=</span> <span class="token variable">$video</span><span class="token operator">-&gt;</span><span class="token property">tags</span><span class="token punctuation">;</span></code></pre>
+    <p>En resumen, si necesitas establecer relaciones Muchos a Muchos Polimórficas en Laravel 10, debes crear una tabla
+        de relación polimórfica y establecer los métodos <strong>morphToMany</strong> y <strong>morphedByMany</strong>
+        en los modelos correspondientes. Una vez definida la relación, puedes acceder a los datos relacionados mediante
+        el uso de métodos en una instancia del modelo principal. Esperamos que esta información te haya sido útil en tu
         proyecto de Laravel 10.</p>
 </div>

@@ -22,12 +22,12 @@ class Post extends Model
     }
 
     //! Relacion muchos a muchos
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class)
-            ->withPivot('data')
-            ->withTimestamps();
-    }
+    // public function tags()
+    // {
+    //     return $this->belongsToMany(Tag::class)
+    //         ->withPivot('data')
+    //         ->withTimestamps();
+    // }
 
     //! Relacion uno a uno polimorfica
     public function image()
@@ -39,5 +39,11 @@ class Post extends Model
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    //! Relacion muchos a muchos polimorfica
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 }

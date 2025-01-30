@@ -10,9 +10,19 @@ class Tag extends Model
     /** @use HasFactory<\Database\Factories\TagFactory> */
     use HasFactory;
 
-    //! Relacion muchos a muchos
+    //! Relacion muchos a muchos inversa
+    // public function posts()
+    // {
+    //     return $this->belongsToMany(Post::class);
+    // }
+
+    //! Relacion muchos a muchos polimorfica inversa
     public function posts()
     {
-        return $this->belongsToMany(Post::class);
+        return $this->morphedByMany(Tag::class, 'taggable');
+    }
+    public function courses()
+    {
+        return $this->morphedByMany(Course::class, 'taggable');
     }
 }

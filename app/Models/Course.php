@@ -23,4 +23,16 @@ class Course extends Model
     {
         return $this->hasManyThrough(Lesson::class, Section::class);
     }
+
+    //! Relacion uno a muchos polimorfica
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    //! Relacion muchos a muchos polimorfica
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
 }
