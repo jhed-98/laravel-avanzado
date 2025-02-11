@@ -33,6 +33,7 @@ export default {
     },
     plugins: [
         forms,
-        flowbite
+        flowbite,
     ],
+    darkMode: 'class',
 };
