@@ -23,14 +23,17 @@
         {{-- {{$users->links('components.pagination') }} --}}
     </x-container>
 
-    <div class="container mx-auto py-4">
+    <div class="container mx-auto px-4 md:px-6 py-4">
+        {{-- Flowbite --}}
         <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
             role="alert">
             <span class="font-medium">Info alert!</span> Change a few things up and try submitting again.
         </div>
+        {{-- WireUI --}}
+        <x-alert title="Success Message!" positive solid />
     </div>
 
-    <div class="container mx-auto px-4 sm:px-6">
+    <div class="container mx-auto px-4 md:px-6 py-4">
         <h3 class="text-red-500 text-2xl font-bold text-center md:text-left">
             Post List
         </h3>
@@ -42,7 +45,5 @@
         </ul>
 
         {{ $users->links() }}
-
-        {{-- {{$users->links('components.pagination') }} --}}
     </div>
 </x-app-layout>
