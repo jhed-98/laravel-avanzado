@@ -15,14 +15,6 @@ Route::resource('articulos', PostController::class)
 
 Route::view('/articulos-old', 'posts.index-old');
 
-Route::get('prueba', function () {
-    $data = \App\Models\Post::find(1);
-
-    // $data->tags()->attach([1 => ['data' => 'hola']]);
-
-    return $data->comments;
-});
-
 //! Agrupar rutas en un mismo controlador
 // Route::prefix('articulos')->name('posts.')->controller(ArticleController::class)->group(function () {
 //     //Definir rutas adicionales

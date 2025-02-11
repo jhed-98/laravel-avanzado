@@ -1,3 +1,4 @@
+{{-- LARAVEL <8 --}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -5,7 +6,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{-- LARAVEL < 8 --}}
     <title>@yield('title', 'LARAVEL < 8')</title>
 
     @stack('metas')
@@ -912,8 +912,6 @@
 </head>
 
 <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-
-    {{-- LARAVEL < 8 --}}
 
     @yield('content')
 

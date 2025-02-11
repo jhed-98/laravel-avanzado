@@ -1,3 +1,4 @@
+{{-- LARAVEL 8+ --}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -5,7 +6,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{-- LARAVEL >= 8 --}}
     <title>{{ $title ?? 'Laravel' }}</title>
 
     @stack('metas')
@@ -16,7 +16,6 @@
 
     <!-- Styles / Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
     @stack('styles')
     @livewireStyles
 
@@ -24,17 +23,13 @@
 
 <body class="font-sans antialiased dark:bg-black dark:text-white/50">
 
-    {{-- LARAVEL >= 8 --}}
-
     <main>
         {{ $slot }}
     </main>
 
-
     <wireui:scripts />
     @livewireScripts
     @stack('scripts')
-
 
 </body>
 
