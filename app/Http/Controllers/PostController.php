@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -12,8 +13,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(20);
-        return view('posts.index', compact('users'));
+        $posts = Post::latest()->paginate(5);
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -21,7 +22,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::all();
+        return view('posts.create', compact('categories'));
     }
 
     /**
@@ -29,7 +31,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Post::create(
+            [
+                'title' => $request->title,
+                'slug' => str()->slug($request->title),
+                'content' => $request->content,
+                'category_id' => $request->category_id,
+                'user_id' => '1'
+            ]
+        );
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -37,13 +48,14 @@ class PostController extends Controller
      */
     public function show(string $post)
     {
+        $post = Post::find($post);
         return view('posts.show', compact('post'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $post)
     {
         return view('posts.edit');
     }
@@ -51,7 +63,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $post)
     {
         //
     }

@@ -23,7 +23,8 @@
 
 <body class="font-sans antialiased dark:bg-black dark:text-white/50">
 
-    <main>
+    @include('layouts.includes.navbar')
+    <main class="pt-20">
         {{ $slot }}
     </main>
 
