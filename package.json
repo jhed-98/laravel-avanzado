@@ -1,5 +1,4 @@
 {
-    "name": "laravel",
     "private": true,
     "type": "module",
     "scripts": {
@@ -18,7 +17,6 @@
     },
     "dependencies": {
         "@tailwindcss/vite": "^4.0.6",
-        "flowbite": "^3.1.2",
-        "laravel": "file:"
+        "flowbite": "^3.1.2"
     }
 }
