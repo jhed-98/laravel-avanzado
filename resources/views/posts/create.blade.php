@@ -4,8 +4,9 @@
 
         <form action="{{ route('posts.store') }}" method="POST" class="max-w-md mx-auto">
             @csrf
-            <x-input label="Titulo de posts" name="title" class="pb-4" />
-            <x-textarea label="Description de posts" name="content" class="pb-4" />
+            <x-input label="Titulo de posts" name="title" class="pb-4" value="{{ old('title') }}" />
+            <x-input label="Slug de posts" name="slug" class="pb-4" value="{{ old('slug') }}" />
+            <x-textarea label="Description de posts" name="content" class="pb-4">{{ old('content') }}</x-textarea>
             <!-- prettier-ignore -->
             <x-select
             class="pb-4"
