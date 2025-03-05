@@ -1,5 +1,7 @@
 ## Cómo instalar Breeze en tu proyecto
 
+[Starter Kits](https://laravel.com/docs/11.x/starter-kits)
+
 Breeze es un paquete oficial de Laravel que proporciona un sistema de autenticación simple y liviano para aplicaciones web. En este capítulo, aprenderás cómo instalar Breeze en tu proyecto Laravel 10 y cómo configurarlo para autenticar usuarios en tu aplicación.
 
 Para empezar, abre la terminal y navega hasta el directorio de tu proyecto Laravel 10. A continuación, ejecuta el siguiente comando para instalar Breeze:
