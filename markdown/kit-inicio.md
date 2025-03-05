@@ -2,7 +2,7 @@
 
 [Starter Kits](https://laravel.com/docs/11.x/starter-kits)
 
-Breeze es un paquete oficial de Laravel que proporciona un sistema de autenticación simple y liviano para aplicaciones web. En este capítulo, aprenderás cómo instalar Breeze en tu proyecto Laravel 10 y cómo configurarlo para autenticar usuarios en tu aplicación.
+Breeze es un paquete oficial de Laravel que proporciona un sistema de autenticación simple y liviano para aplicaciones web. Aprenderás cómo instalar Breeze en tu proyecto Laravel 10 y cómo configurarlo para autenticar usuarios en tu aplicación.
 
 Para empezar, abre la terminal y navega hasta el directorio de tu proyecto Laravel 10. A continuación, ejecuta el siguiente comando para instalar Breeze:
 
@@ -43,7 +43,7 @@ En resumen, instalar Breeze en tu proyecto Laravel 10 es sencillo y te proporcio
 
 ## Estructura de Breeze
 
-Breeze es un paquete oficial de Laravel que permite implementar la autenticación de usuarios de manera rápida y sencilla en tu aplicación. En este capítulo, exploraremos la estructura de Breeze y cómo implementa la autenticación en Laravel 10.
+Breeze es un paquete oficial de Laravel que permite implementar la autenticación de usuarios de manera rápida y sencilla en tu aplicación. Exploraremos la estructura de Breeze y cómo implementa la autenticación en Laravel 10.
 
 Cuando instalas Breeze en tu proyecto Laravel, se agregan varios archivos y directorios que contienen el código fuente necesario para manejar la autenticación. El archivo principal es routes/web.php, donde se definen las rutas para la autenticación, el registro y la recuperación de contraseñas. También se incluyen vistas y controladores en los siguientes directorios:
 
@@ -59,7 +59,7 @@ En resumen, la estructura de Breeze en Laravel 10 es simple y bien organizada. C
 
 [Installing Jetstream](https://jetstream.laravel.com/installation.html)
 
-En este capítulo, te enseñaré cómo instalar Jetstream en tu proyecto Laravel 10 para autenticar usuarios en tu aplicación. Jetstream es un paquete de Laravel que te proporciona un sistema de autenticación de usuarios y una interfaz de usuario para administrar las cuentas de los usuarios. Además, también te brinda características como la verificación en dos pasos, la gestión de sesiones y la protección contra ataques de fuerza bruta.
+Cómo instalar Jetstream en tu proyecto Laravel 10 para autenticar usuarios en tu aplicación. Jetstream es un paquete de Laravel que te proporciona un sistema de autenticación de usuarios y una interfaz de usuario para administrar las cuentas de los usuarios. Además, también te brinda características como la verificación en dos pasos, la gestión de sesiones y la protección contra ataques de fuerza bruta.
 
 Para instalar Jetstream, primero debes tener instalado Laravel en tu máquina. Luego, abre una terminal y navega hasta el directorio de tu proyecto Laravel. Una vez allí, ejecuta el siguiente comando para instalar Jetstream:
 

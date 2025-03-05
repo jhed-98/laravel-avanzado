@@ -130,7 +130,7 @@ Y listo! Ejecutamos la migración con artisan migrate y habremos renombrado nues
 
 ## Modificadores de columna
 
-En este capítulo, te enseñaremos cómo utilizar los modificadores de columna en las migraciones de Laravel 10. Los modificadores de columna son una forma poderosa de definir restricciones y valores predeterminados para los campos de la tabla en la base de datos de tu aplicación Laravel.
+Los modificadores de columna en las migraciones de Laravel 10. Los modificadores de columna son una forma poderosa de definir restricciones y valores predeterminados para los campos de la tabla en la base de datos de tu aplicación Laravel.
 
 Los modificadores de columna te permiten especificar restricciones para los campos de la tabla, como la longitud máxima de un campo o si un campo es obligatorio o no. Además, también puedes utilizar los modificadores de columna para establecer valores predeterminados para los campos, lo que significa que si no se proporciona ningún valor, se utilizará el valor predeterminado que hayas establecido.
 
