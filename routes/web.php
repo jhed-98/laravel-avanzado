@@ -28,3 +28,13 @@ Route::view('/articulos-old', 'posts.index-old');
 
 //! Para eliminar cache de rutas
 // php artisan route:clear
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
