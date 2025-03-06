@@ -9,18 +9,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',  HomeController::class)->name('home');
 Route::view('/blade-template', 'blade-template');
 
+Route::view('/articulos-old', 'posts.index-old');
+
 Route::resource('articulos', PostController::class)
     ->parameters(['articulos' => 'post'])
     ->names('posts');
 
-Route::view('/articulos-old', 'posts.index-old');
-
 //! Agrupar rutas en un mismo controlador
-// Route::prefix('articulos')->name('posts.')->controller(ArticleController::class)->group(function () {
+// Route::prefix('articulos')->name('posts.')->controller(PostController::class)->group(function () {
 //     //Definir rutas adicionales
 //     Route::get('/', 'index')->name('index');
-//     Route::get('/export', 'export')->name('export');
-//     Route::get('/consult', 'consult')->name('consult');
+//     Route::post('/', 'store')->name('store');
+//     Route::get('/create', 'create')->name('create');
+//     Route::get('/{post}', 'show')->name('show');
+//     Route::match(['put', 'patch'], '/{post}', 'update')->name('update');
+//     Route::delete('/{post}', 'destroy')->name('destroy');
+//     Route::get('/{post}/editar', 'edit')->name('edit');
 // });
 
 //! Para crear cache de rutas solo se aplica cuando el proyecto esta en produccion

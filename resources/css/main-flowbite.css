@@ -1,0 +1,9 @@
+@layer components {
+    [drawer-backdrop] {
+        @apply bg-gray-900/60 fixed inset-0 z-30;
+    }
+
+    [data-theme="dark"] [drawer-backdrop] {
+        @apply bg-gray-900/80;
+    }
+}
