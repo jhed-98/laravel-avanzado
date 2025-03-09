@@ -35,10 +35,10 @@ class Post extends Model
     //         ->withTimestamps();
     // }
 
-    //! Relacion uno a uno polimorfica
-    public function image()
+    //! Relacion uno a muchos polimorfica
+    public function images()
     {
-        return $this->morphOne(Image::class, 'imageable');
+        return $this->morphMany(Image::class, 'imageable');
     }
 
     //! Relacion uno a muchos polimorfica

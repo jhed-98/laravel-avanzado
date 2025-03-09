@@ -11,7 +11,7 @@
         <h1>Post Show: {{ $post->title }}</h1>
         <p>Category: {{ $post->category->name }}</p>
         <div>
-            {{ $post->content }}
+            {{ $post->body }}
         </div>
 
         <div class="py-4">

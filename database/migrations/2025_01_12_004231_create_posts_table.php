@@ -17,11 +17,16 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
 
-            $table->longText('content');
+            $table->text('excerpt');
+            $table->longText('body');
+            $table->string('image_path')->nullable();
 
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->enum('published', [1, 2])->default(1);
+
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
 
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
     }

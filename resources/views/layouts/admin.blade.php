@@ -189,8 +189,17 @@
         </div>
     </main>
 
+    @stack('modals')
     @livewireScripts
     @stack('scripts')
+
+    @if (session('swal'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire(@json(session('swal')))
+            });
+        </script>
+    @endif
 
 </body>
 
