@@ -1,12 +1,7 @@
-@import 'main-flowbite.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 [x-cloak] {
     display: none;
-}
-
-.text-negative-600 {
-    @apply text-red-600;
 }

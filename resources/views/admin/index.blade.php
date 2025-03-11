@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg mt-14">
+    <div>
         <div class="grid grid-cols-3 gap-4 mb-4">
             <div class="flex items-center justify-center h-24 rounded-sm bg-gray-50">
                 <p class="text-2xl text-gray-400">

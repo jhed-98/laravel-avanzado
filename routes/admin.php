@@ -1,14 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    session()->flash('swal', [
-        'title'             => 'Error!',
-        'text'              => 'Do you want to continue',
-        'icon'              => 'error',
-        'confirmButtonText' => 'Cool',
-        'footer'            => '<a href="#">Why do I have this issue?</a>',
-    ]);
     return view('admin.index');
-});
+})->name('dashboard');
+
+Route::resource('categories', CategoryController::class)
+    ->names('categories')->except('show');
