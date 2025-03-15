@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('taggables', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tag_id')->constrained();
             $table->morphs('taggable');
-            $table->foreignId('tag_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

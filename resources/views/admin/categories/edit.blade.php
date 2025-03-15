@@ -1,14 +1,14 @@
 <x-admin-layout>
     <div x-data>
         <form action="{{ route('admin.categories.update', $category) }}" method="POST"
-            class="bg-white rounded-lg p-6 shadow-lg">
+            class="bg-white rounded-lg p-6 shadow-lg" x-data="{ name: '', slug: '' }" x-init="$watch('name', value => slug = string_to_slug(value))">
             @csrf
             @method('PUT')
-            <div x-data="{ name: @js($category->name), slug: @js($category->slug) }">
+            <div>
                 <x-wireui:input label="Nombre" placeholder="Escriba el nombre de la categorias" name="name"
-                    class="mb-2" x-model="name" x-on:input="string_to_slug($event.target.value, '#slug')" />
+                    class="mb-2" value="{{ old('name', $category->name) }}" x-model.fill="name" />
                 <x-wireui:input label="Slug" placeholder="Slug de la categoria" name="slug" class="mb-2"
-                    x-model="slug" readonly />
+                    value="{{ old('slug', $category->slug) }}" x-model.fill="slug" readonly />
             </div>
 
             <div class="flex justify-end space-x-2">

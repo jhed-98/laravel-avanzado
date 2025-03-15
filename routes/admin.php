@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\PostController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -9,3 +10,5 @@ Route::get('/', function () {
 
 Route::resource('categories', CategoryController::class)
     ->names('categories')->except('show');
+Route::resource('posts', PostController::class)
+    ->names('posts')->except('show');

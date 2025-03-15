@@ -2,14 +2,41 @@
 
 namespace App\Models;
 
+use App\Enums\PostPublished;
+use App\Observers\PostObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+#[ObservedBy([PostObserver::class])]
 class Post extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    //! Enums
+    protected $casts = [
+        'published' => PostPublished::class,
+    ];
+
+    //! Attribute
+    protected function title(): Attribute
+    {
+        return new Attribute(
+            //! - Mutadores
+            set: fn($value) => strtolower($value),
+            //! - Accessor
+            get: fn($value) => ucfirst($value),
+        );
+    }
+    protected function image(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->image_path ?? asset('image/photo.png'),
+        );
+    }
 
     //! Ruta personalizada
     public function getRouteKeyName()

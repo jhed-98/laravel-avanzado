@@ -1,3 +1,4 @@
+@import './assets/wireui.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -12,6 +12,12 @@
             'active' => Route::is('admin.categories.*'),
             'icon' => 'fa-solid fa-inbox',
         ],
+        [
+            'name' => 'Articulos',
+            'url' => route('admin.posts.index'),
+            'active' => Route::is('admin.posts.*'),
+            'icon' => 'fa-solid fa-blog',
+        ],
     ];
 @endphp
 <aside id="logo-sidebar"

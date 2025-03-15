@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\PostPublished;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Nette\Utils\Random;
@@ -19,8 +20,11 @@ class PostFactory extends Factory
     public function definition(): array
     {
         $title = fake()->sentence();
-        $published = fake()->randomElement([1, 2]);
-        $published_at = $published === 1 ? now() : null;
+        $published = fake()->randomElement([
+            PostPublished::Borrador->value,
+            PostPublished::Publicado->value,
+        ]);
+        $published_at = $published === PostPublished::Publicado->value ? now() : null;
         return [
             'title' => $title,
             'slug' => Str::slug($title),
