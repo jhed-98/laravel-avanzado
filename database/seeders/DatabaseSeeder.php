@@ -24,11 +24,12 @@ class DatabaseSeeder extends Seeder
                 CategorySeeder::class,
                 PostSeeder::class,
                 CourseSeeder::class,
+                TagSeeder::class,
             ]
         );
 
-        Tag::factory(10)->create();
+        // Tag::factory(10)->create();
 
-        $this->call(CourseSeeder::class,);
+        // $this->call(CourseSeeder::class,);
     }
 }

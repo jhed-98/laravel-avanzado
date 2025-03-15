@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PostRequest;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -50,7 +51,13 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::all();
-        return view('admin.posts.edit', compact('post', 'categories'));
+        // $tags = Tag::all();
+        $data = [
+            "post" => $post,
+            "categories" => $categories,
+            // "tags" => $tags,
+        ];
+        return view('admin.posts.edit', $data);
     }
 
     /**
@@ -58,6 +65,12 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
+        $tags = [];
+        foreach ($request->tags ?? [] as $name) {
+            $tag = Tag::firstOrCreate(['name' => $name]);
+            $tags[] = $tag->id;
+        }
+        $post->tags()->sync($tags);
         $post->update($request->all());
 
         session()->flash('swal', [

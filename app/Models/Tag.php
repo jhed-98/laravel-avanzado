@@ -9,6 +9,7 @@ class Tag extends Model
 {
     /** @use HasFactory<\Database\Factories\TagFactory> */
     use HasFactory;
+    protected $fillable = ['name'];
 
     //! Relacion muchos a muchos inversa
     // public function posts()

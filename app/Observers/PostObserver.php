@@ -11,7 +11,7 @@ class PostObserver
     //! Antes de registrar de datos
     public function creating(Post $post)
     {
-        $post->user_id = Auth::user()->id;
+        if (!app()->runningInConsole()) $post->user_id = Auth::user()->id;
     }
 
     //!

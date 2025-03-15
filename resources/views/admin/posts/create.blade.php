@@ -11,12 +11,15 @@
             <x-wireui:input class="mb-4" label="Slug" placeholder="Ingrese el slug del artículo" name="slug"
                 value="{{ old('slug') }}" x-model.fill="slug" readonly />
 
-            <x-wireui:native-select class="mb-4 select-wrapper" label="Categoria" name="category_id">
+            {{-- <x-wireui:native-select class="mb-4 select-wrapper" label="Categoria" name="category_id">
                 <option selected disabled>Selecciona una categoria</option>
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
                 @endforeach
-            </x-wireui:native-select>
+            </x-wireui:native-select> --}}
+
+            <x-tw.select class_father="mb-4 select-wrapper" label="Categoria" for="category_id" name="category_id"
+                :key="$categories" option="Selecciona una categoria" :error="$errors->first('category_id')" />
 
         </div>
 

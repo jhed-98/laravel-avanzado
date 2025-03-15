@@ -25,7 +25,7 @@ class PostRequest extends FormRequest
     {
         $rules = [
             'title' => 'required|max:255',
-            'title' => 'required|max:255|unique:posts,slug,' . ($this->post?->id ?? 'NULL'),
+            'slug' => 'required|max:255|unique:posts,slug,' . ($this->post?->id ?? 'NULL'),
             // 'slug' => [
             //     'required',
             //     'max:255',
@@ -39,6 +39,7 @@ class PostRequest extends FormRequest
             $rules['body'] = $this->input('published') == PostPublished::Publicado->value ? 'required' : 'nullable';
             // $rules['published'] = 'required|in:1,2';
             $rules['published'] =  ['required', Rule::in([PostPublished::Borrador->value, PostPublished::Publicado->value])];
+            $rules['tags'] = 'nullable|array';
         }
 
         return $rules;

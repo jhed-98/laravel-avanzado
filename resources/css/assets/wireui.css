@@ -5,3 +5,16 @@
 .select-wrapper select {
     @apply px-3 py-2;
 }
+
+.select2 .selection .select2-selection {
+    @apply !border-0 outline-0;
+}
+
+/* Component select multiple */
+/* .select2 {
+    @apply rounded-md focus-within:ring-primary-600 shadow bg-background-white dark:bg-background-dark relative flex justify-between gap-x-2 items-center transition-all ease-in-out duration-150 ring-1 ring-inset ring-gray-300 focus-within:ring-2 outline-0 pl-3 pr-3 py-2 invalidated:bg-negative-50 invalidated:ring-negative-500 invalidated:dark:ring-negative-700 invalidated:dark:bg-negative-700/10 invalidated:dark:ring-negative-600;
+} */
+
+/* .select2 .selection .select2-selection {
+    @apply bg-transparent w-full p-0 !border-0 !outline-none !ring-0 sm:text-sm sm:leading-6 text-gray-900 dark:text-gray-400 placeholder:text-gray-400 dark:placeholder:text-gray-300 invalidated:text-negative-800 invalidated:dark:text-negative-600 invalidated:placeholder-negative-400 invalidated:dark:placeholder-negative-600/70;
+} */
