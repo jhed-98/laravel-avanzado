@@ -4,12 +4,25 @@
     @endpush
     <h1 class="text-2xl font-semibold mb-2">Nuevo artículo</h1>
     <div x-data>
-        <form action="{{ route('admin.posts.update', $post) }}" method="POST" class="bg-white rounded-lg p-6 shadow-lg"
-            x-data="{ title: '', slug: '' }" x-init="$watch('title', value => slug = string_to_slug(value))">
+        <form action="{{ route('admin.posts.update', $post) }}" method="POST" enctype="multipart/form-data"
+            class="bg-white rounded-lg p-6 shadow-lg" x-data="{ title: '', slug: '', imgPreview: '{{ $post->image }}' }" x-init="$watch('title', value => slug = string_to_slug(value))">
             @csrf
             @method('PUT')
             <div>
-
+                <div class="mb-6 relative">
+                    <figure>
+                        <img x-show="imgPreview" :src="imgPreview"
+                            class="aspect-[16/9] object-cover object-center w-full">
+                    </figure>
+                    <div class="absolute top-8 right-8">
+                        <label class="bg-white px-4 py-2 rounded-lg border border-gray-500 shadow-sm cursor-pointer">
+                            <i class="fa-solid fa-camera mr-2"></i>
+                            Actualizar imagen
+                            <input type="file" accept="image/*" class="hidden" name="image"
+                                @change="file = $event.target.files[0]; imgPreview = URL.createObjectURL(file)">
+                        </label>
+                    </div>
+                </div>
                 <x-wireui:input class="mb-4" label="Título del artículo" placeholder="Escriba el nombre del artículo"
                     name="title" value="{{ old('title', $post->title) }}" x-model.fill="title" />
 

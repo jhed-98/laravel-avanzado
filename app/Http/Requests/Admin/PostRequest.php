@@ -40,6 +40,7 @@ class PostRequest extends FormRequest
             // $rules['published'] = 'required|in:1,2';
             $rules['published'] =  ['required', Rule::in([PostPublished::Borrador->value, PostPublished::Publicado->value])];
             $rules['tags'] = 'nullable|array';
+            $rules['image_path'] = 'nullable|image|max:1024';
         }
 
         return $rules;

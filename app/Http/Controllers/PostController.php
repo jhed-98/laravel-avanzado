@@ -6,9 +6,15 @@ use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
+    public function image_s3(Post $post)
+    {
+        $img = Storage::get($post->image_path); // Recupera el objeto de la image
+        return response($img)->header('Content-Type', 'image/jpeg');
+    }
     /**
      * Display a listing of the resource.
      */

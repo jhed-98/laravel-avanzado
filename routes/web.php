@@ -15,6 +15,8 @@ Route::resource('articulos', PostController::class)
     ->parameters(['articulos' => 'post'])
     ->names('posts');
 
+Route::get('/posts/{post}/image', [PostController::class, 'image_s3'])->name('posts.image_s3');
+
 //! Agrupar rutas en un mismo controlador
 // Route::prefix('articulos')->name('posts.')->controller(PostController::class)->group(function () {
 //     //Definir rutas adicionales

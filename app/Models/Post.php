@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 #[ObservedBy([PostObserver::class])]
 class Post extends Model
@@ -34,7 +35,23 @@ class Post extends Model
     protected function image(): Attribute
     {
         return new Attribute(
-            get: fn() => $this->image_path ?? asset('image/photo.png'),
+            /* get: fn() => $this->image_path ?? asset('image/photo.png'), */
+            get: function () {
+                if ($this->image_path) {
+                    //Verificar si la url comienza con https:// o http://
+                    if (substr($this->image_path, 0, 8) === 'https://') {
+                        return $this->image_path;
+                    }
+                    //! public - s3 (public)
+                    return Storage::url($this->image_path);
+                    //! s3 (privado) - URL Temporal
+                    // return Storage::temporaryUrl($this->image_path, now()->addMinutes(30));
+                    //! s3 (privado) - URL
+                    // return route('posts.image_s3', $this);
+                } else {
+                    return asset('image/photo.png');
+                }
+            }
         );
     }
 

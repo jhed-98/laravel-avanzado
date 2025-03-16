@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class PostController extends Controller
@@ -65,13 +66,31 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
+        $data = $request->all();
         $tags = [];
         foreach ($request->tags ?? [] as $name) {
             $tag = Tag::firstOrCreate(['name' => $name]);
             $tags[] = $tag->id;
         }
         $post->tags()->sync($tags);
-        $post->update($request->all());
+
+        if ($request->file('image')) {
+            if ($post->image_path) {
+                Storage::delete($post->image_path);
+            }
+            //! Method 1
+            // $data['image_path'] = Storage::put('posts', $request->image);
+            //! Method 2
+            // $file_name = $request->slug . '.' . $request->file('image')->getClientOriginalExtension();
+            // $data['image_path'] = Storage::putFileAs('posts', $request->image, $file_name);
+            //! Method 3
+            // $data['image_path'] = $request->file('image')->store('post');
+            //! Method 4
+            $file_name = $request->slug . '.' . $request->file('image')->getClientOriginalExtension();
+            $data['image_path'] = $request->file('image')->storeAs('posts', $file_name);
+        }
+
+        $post->update($data);
 
         session()->flash('swal', [
             'icon' => 'success',
