@@ -152,8 +152,8 @@
             $(document).ready(function() {
                 $('.tag-multiple').select2({
                     width: '100%',
-                    tags: true,
-                    tokenSeparators: [',', ' '],
+                    // tags: true,
+                    // tokenSeparators: [',', ' '],
                     ajax: {
                         url: "{{ route('api.tags.index') }}",
                         dataType: 'json',

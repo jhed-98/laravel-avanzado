@@ -11,6 +11,8 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class PostController extends Controller
 {
@@ -103,16 +105,20 @@ class PostController extends Controller
             if ($post->image_path) {
                 Storage::delete($post->image_path);
             }
-            //! Method 1
-            // $data['image_path'] = Storage::put('posts', $request->image);
+
             //! Method 2
-            // $file_name = $request->slug . '.' . $request->file('image')->getClientOriginalExtension();
-            // $data['image_path'] = Storage::putFileAs('posts', $request->image, $file_name);
-            //! Method 3
-            // $data['image_path'] = $request->file('image')->store('post');
-            //! Method 4
             $file_name = $request->slug . '.' . $request->file('image')->getClientOriginalExtension();
-            $data['image_path'] = $request->file('image')->storeAs('posts', $file_name);
+            $data['image_path'] = Storage::putFileAs('posts', $request->image, $file_name);
+
+            //! Intervention Image
+            // create new manager instance with desired driver
+            $manager = new ImageManager(new Driver());
+            // read image from filesystem
+            $image = $manager->read('storage/' . $data['image_path']);
+            // scale down to fixed width
+            $image->scaleDown(width: 1280);
+            // encode & save progressive jpeg in low quality
+            $image->save('storage/' . $data['image_path'], progressive: true);
         }
 
         $post->update($data);
