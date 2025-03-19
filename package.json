@@ -20,7 +20,10 @@
         "@fortawesome/fontawesome-free": "^6.7.2",
         "@tailwindcss/vite": "^4.0.6",
         "alpinejs": "^3.14.8",
+        "ckeditor5": "^44.3.0",
         "flowbite": "^3.1.2",
+        "highlight.js": "^11.11.1",
+        "quill": "^2.0.3",
         "sweetalert2": "^11.17.2"
     }
 }

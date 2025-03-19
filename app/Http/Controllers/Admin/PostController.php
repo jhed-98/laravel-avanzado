@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PostRequest;
 use App\Models\Category;
+use App\Models\Image;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -66,7 +67,31 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
+        //! Extraer imagenes de body
+        $old_images = $post->images->pluck('url')->toArray();
+
+        $re_extractImages = '/src=["\']([^ ^"^\']*)["\']/ims';
+        preg_match_all($re_extractImages, $request->body, $matches);
+        $images = $matches[1];
+
+        foreach ($images as $key => $image) {
+            $images[$key] = 'images/' . pathinfo($image, PATHINFO_BASENAME);
+        }
+
+        $new_images = array_diff($images, $old_images);
+        $deleted_images = array_diff($old_images, $images);
+
+        foreach ($new_images as  $image) {
+            $post->images()->create(['url' => $image]);
+        }
+
+        foreach ($deleted_images as  $image) {
+            Storage::delete($image);
+            Image::where('url', $image)->delete();
+        }
+
         $data = $request->all();
+        //! Tags Select2
         $tags = [];
         foreach ($request->tags ?? [] as $name) {
             $tag = Tag::firstOrCreate(['name' => $name]);

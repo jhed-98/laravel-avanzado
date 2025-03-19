@@ -1,0 +1,54 @@
+/* Ckeditor */
+.ck.ck-editor {
+    @apply !w-full;
+}
+
+.ck.ck-balloon-panel.ck-balloon-panel_position_border-side_right.ck-balloon-panel_visible {
+    /* @apply !hidden; */
+}
+
+.ckeditor ul {
+    @apply pl-6;
+}
+
+.ckeditor ol {
+    @apply pl-6;
+}
+
+.ckeditor a {
+    @apply text-blue-600 visited:text-purple-800 underline;
+}
+
+.ckeditor h1 {
+    @apply text-3xl font-semibold;
+}
+
+.ckeditor h2 {
+    @apply text-2xl font-semibold;
+}
+
+.ckeditor h3 {
+    @apply text-xl font-semibold;
+}
+
+.ckeditor h4 {
+    @apply text-lg font-semibold;
+}
+
+.ckeditor strong {
+    @apply font-bold;
+}
+
+.ckeditor ul:not(:last-child),
+.ckeditor ol:not(:last-child),
+.ckeditor p:not(:last-child),
+.ckeditor h1:not(:last-child),
+.ckeditor h2:not(:last-child),
+.ckeditor pre {
+    @apply mb-4;
+}
+
+.ckeditor h3:not(:last-child),
+.ckeditor h4:not(:last-child) {
+    @apply mb-3;
+}

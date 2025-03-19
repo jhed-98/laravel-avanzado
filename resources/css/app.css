@@ -1,4 +1,6 @@
 @import './assets/wireui.css';
+@import './assets/ckeditor.css';
+@import './assets/quill.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

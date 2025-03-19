@@ -10,15 +10,15 @@
 
         <h1>Post Show: {{ $post->title }}</h1>
         <p>Category: {{ $post->category->name }}</p>
-        <div>
-            {{ $post->body }}
+        <div class="quill-editor-content">
+            {!! $post->body !!}
         </div>
 
         <div class="py-4">
             <form action="{{ route('posts.destroy', $post) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <x-button type="submit" outline negative label="Eliminar" />
+                <x-wireui:button type="submit" outline negative label="Eliminar" />
             </form>
         </div>
     </x-container>

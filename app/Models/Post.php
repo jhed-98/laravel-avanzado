@@ -45,7 +45,7 @@ class Post extends Model
                     //! public - s3 (public)
                     return Storage::url($this->image_path);
                     //! s3 (privado) - URL Temporal
-                    // return Storage::temporaryUrl($this->image_path, now()->addMinutes(30));
+                    // return Storage::disk('s3')->temporaryUrl($this->image_path, now()->addMinutes(30));
                     //! s3 (privado) - URL
                     // return route('posts.image_s3', $this);
                 } else {

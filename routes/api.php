@@ -3,6 +3,7 @@
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -21,3 +22,8 @@ Route::get('/tags', function (Request $request) {
         });
     return $tags;
 })->name('tags.index');
+
+Route::post('/images/upload', function (Request $request) {
+    $path = Storage::put('images', $request->upload);
+    return ['url' => Storage::url($path)];
+})->name('images.upload');
