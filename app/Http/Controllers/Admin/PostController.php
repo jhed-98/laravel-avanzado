@@ -4,15 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PostRequest;
+use App\Jobs\ProcessImageJob;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Post;
 use App\Models\Tag;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
 
 class PostController extends Controller
 {
@@ -111,14 +108,7 @@ class PostController extends Controller
             $data['image_path'] = Storage::putFileAs('posts', $request->image, $file_name);
 
             //! Intervention Image
-            // create new manager instance with desired driver
-            $manager = new ImageManager(new Driver());
-            // read image from filesystem
-            $image = $manager->read('storage/' . $data['image_path']);
-            // scale down to fixed width
-            $image->scaleDown(width: 1280);
-            // encode & save progressive jpeg in low quality
-            $image->save('storage/' . $data['image_path'], progressive: true);
+            ProcessImageJob::dispatch($data['image_path']);
         }
 
         $post->update($data);
