@@ -9,6 +9,8 @@ use App\Models\Category;
 use App\Models\Image;
 use App\Models\Post;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -18,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::latest('id')->paginate(10);
+        $posts = Post::where('user_id', Auth::id())->latest('id')->paginate(10);
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -51,6 +53,11 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        if (!Gate::allows('author_policy', $post)) {
+            abort(403, 'No tienes permiso para editar este post');
+        }
+        // Gate::authorize('author', $post);
+
         $categories = Category::all();
         // $tags = Tag::all();
         $data = [

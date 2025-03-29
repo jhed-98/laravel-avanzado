@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 
 //! Pagination
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,5 +35,10 @@ class AppServiceProvider extends ServiceProvider
             'create' => 'crear',
             'edit' => 'editar',
         ]);
+
+        //! Gates
+        // Gate::define('author', function ($user, $post) {
+        //     return $user->id === $post->user_id;
+        // });
     }
 }
