@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Enums\PostPublished;
+use App\Models\Scopes\PostFilterScope;
 use App\Observers\PostObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 #[ObservedBy([PostObserver::class])]
@@ -20,6 +22,7 @@ class Post extends Model
     //! Enums
     protected $casts = [
         'published' => PostPublished::class,
+        'published_at' => 'datetime',
     ];
 
     //! Attribute
@@ -50,6 +53,18 @@ class Post extends Model
                     // return route('posts.image_s3', $this);
                 } else {
                     return asset('image/photo.png');
+                }
+            }
+        );
+    }
+    protected function publishedtime(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                if ($this->published_at) {
+                    return $this->published_at->format('d M Y');
+                } else {
+                    return $this->created_at->format('d M Y');
                 }
             }
         );
@@ -96,5 +111,35 @@ class Post extends Model
     {
         return $this->morphToMany(Tag::class, 'taggable')
             ->withTimestamps();
+    }
+
+    //! Query Scope Local
+    public function scopeFilter($query, $filters)
+    {
+        $query
+            ->when($filters['category'] ?? null, function ($q, $category) {
+                $q->whereIn('category_id', $category);
+            })
+            ->when($filters['order'] ?? 'new', function ($q, $order) {
+                $sort = $order === 'new' ? 'desc' : 'asc';
+                $q->orderBy('published_at', $sort);
+            })
+            ->when($filters['tag'] ?? null, function ($q, $tag) {
+                $q->whereHas('tags', function ($q) use ($tag) {
+                    $q->where('tags.name', $tag);
+                });
+            });
+    }
+    //! Query Scope Global
+    protected static function booted(): void
+    {
+        //! Method 2
+        static::addGlobalScope(new PostFilterScope);
+        //! Method 3
+        static::addGlobalScope('written', function ($builder) {
+            if (request()->routeIs('admin.*')) {
+                $builder->where('user_id', Auth::id());
+            }
+        });
     }
 }

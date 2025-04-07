@@ -1,4 +1,16 @@
-<x-admin-layout>
+<x-admin-layout :breadcrumbs="[
+    [
+        'name' => 'Home',
+        'url' => route('admin.dashboard'),
+    ],
+    [
+        'name' => 'Artículos',
+        'url' => route('admin.posts.index'),
+    ],
+    [
+        'name' => 'Create',
+    ],
+]">
     <h1 class="text-2xl font-semibold mb-2">Nuevo artículo</h1>
     <form action="{{ route('admin.posts.store') }}" method="POST" class="bg-white rounded-lg p-6 shadow-lg"
         x-data="{ title: '', slug: '' }" x-init="$watch('title', value => slug = string_to_slug(value))">

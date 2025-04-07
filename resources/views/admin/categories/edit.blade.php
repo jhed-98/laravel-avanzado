@@ -1,4 +1,16 @@
-<x-admin-layout>
+<x-admin-layout :breadcrumbs="[
+    [
+        'name' => 'Home',
+        'url' => route('admin.dashboard'),
+    ],
+    [
+        'name' => 'Categorias',
+        'url' => route('admin.categories.index'),
+    ],
+    [
+        'name' => $category->name,
+    ],
+]">
     <div x-data>
         <form action="{{ route('admin.categories.update', $category) }}" method="POST"
             class="bg-white rounded-lg p-6 shadow-lg" x-data="{ name: '', slug: '' }" x-init="$watch('name', value => slug = string_to_slug(value))">

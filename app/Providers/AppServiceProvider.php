@@ -40,5 +40,11 @@ class AppServiceProvider extends ServiceProvider
         // Gate::define('author', function ($user, $post) {
         //     return $user->id === $post->user_id;
         // });
+        Gate::after(function ($user, $ability) {
+            return $user->hasRole('Prueba');
+            if ($user->hasRole('Prueba')) {
+                return $user->hasPermissionTo($ability); // Respeta los permisos asignados
+            }
+        });
     }
 }

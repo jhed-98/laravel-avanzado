@@ -110,6 +110,12 @@
                                     {{ __('Manage Account') }}
                                 </div>
 
+                                @can('Acceso panel')
+                                    <x-dropdown-link href="{{ route('admin.dashboard') }}">
+                                        {{ __('Admin') }}
+                                    </x-dropdown-link>
+                                @endcan
+
                                 <x-dropdown-link href="{{ route('profile.show') }}">
                                     {{ __('Profile') }}
                                 </x-dropdown-link>
@@ -189,6 +195,13 @@
 
                 <div class="mt-3 space-y-1">
                     <!-- Account Management -->
+
+                    @can('Acceso panel')
+                        <x-responsive-nav-link href="{{ route('admin.dashboard') }}">
+                            {{ __('Admin') }}
+                        </x-responsive-nav-link>
+                    @endcan
+
                     <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
