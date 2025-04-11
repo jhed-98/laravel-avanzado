@@ -18,6 +18,9 @@
                     <x-nav-link href="{{ route('posts.index') }}" :active="request()->routeIs('articulos.index')">
                         {{ __('Posts') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('contacts.index') }}" :active="request()->routeIs('contacts.index')">
+                        {{ __('Contacts') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -168,6 +171,12 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('posts.index') }}" :active="request()->routeIs('articulos.index')">
+                {{ __('Posts') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('contacts.index') }}" :active="request()->routeIs('contacts.index')">
+                {{ __('Contacts') }}
             </x-responsive-nav-link>
             @guest
                 <x-responsive-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,9 @@ Route::resource('articulos', PostController::class)
     ->names('posts');
 
 Route::get('/posts/{post}/image', [PostController::class, 'image_s3'])->name('posts.image_s3');
+
+Route::get('contacts',  [ContactController::class, 'index'])->name('contacts.index');
+Route::post('contacts/',  [ContactController::class, 'store'])->name('contacts.store');
 
 //! Agrupar rutas en un mismo controlador
 // Route::prefix('articulos')->name('posts.')->controller(PostController::class)->group(function () {
