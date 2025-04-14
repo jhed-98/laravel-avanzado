@@ -111,7 +111,14 @@ class PostController extends Controller
             }
 
             //! Method 2
-            $file_name = $request->slug . '.' . $request->file('image')->getClientOriginalExtension();
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $file_name = $request->slug . '.' . $extension;
+            // Darle un nombre a las imagenes que subimos
+            while (Storage::exists(('posts/' . $file_name))) {
+                $extension = $request->file('image')->getClientOriginalExtension();
+                $file_name = str_replace('.' . $extension, '-copia.' . $extension, $file_name);
+            }
+
             $data['image_path'] = Storage::putFileAs('posts', $request->image, $file_name);
 
             //! Intervention Image

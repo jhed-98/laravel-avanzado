@@ -112,4 +112,9 @@ class PostController extends Controller
 
         return redirect()->route('posts.index');
     }
+
+    public function download(Post $post)
+    {
+        return Storage::download($post->image_path);
+    }
 }

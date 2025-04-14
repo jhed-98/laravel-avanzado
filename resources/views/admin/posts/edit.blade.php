@@ -26,13 +26,18 @@
                         <img x-show="imgPreview" :src="imgPreview"
                             class="aspect-[16/9] object-cover object-center w-full">
                     </figure>
-                    <div class="absolute top-8 right-8">
+                    <div class="absolute top-8 right-8 flex flex-col space-y-2">
                         <label class="bg-white px-4 py-2 rounded-lg border border-gray-500 shadow-sm cursor-pointer">
                             <i class="fa-solid fa-camera mr-2"></i>
                             Actualizar imagen
                             <input type="file" accept="image/*" class="hidden" name="image"
                                 @change="file = $event.target.files[0]; imgPreview = URL.createObjectURL(file)">
                         </label>
+                        @if ($post->published === \App\Enums\PostPublished::Publicado)
+                            <a href="{{ route('posts.download', $post) }}"
+                                class="bg-white px-4 py-2 rounded-lg border border-gray-500 shadow-sm cursor-pointer">
+                                Descargar Imagen</a>
+                        @endif
                     </div>
                 </div>
                 <x-wireui:input class="mb-4" label="Título del artículo" placeholder="Escriba el nombre del artículo"
@@ -77,6 +82,7 @@
 
                 <div class="pb-4">
                     <div id="editor-quill">{!! old('body', $post->body) !!}</div>
+                    <textarea class="hidden" name="body" id="body">{{ old('body', $post->body) }}</textarea>
                 </div>
 
                 <div class="mb-4">
@@ -112,9 +118,8 @@
             </div>
 
             <div class="flex justify-end space-x-2">
-                <input type="hidden" name="body">
                 <x-wireui:button outline negative label="Eliminar" @click.prevent="$refs.deleteForm.submit()" />
-                <x-wireui:button type="submit" class="btnSendPost" outline primary label="Actualizar articulo" />
+                <x-wireui:button type="submit" outline primary label="Actualizar articulo" />
             </div>
         </form>
         <form x-ref="deleteForm" action="{{ route('admin.posts.destroy', $post) }}" method="POST">
@@ -337,18 +342,6 @@
                     }
                 });
 
-                document.querySelector(".btnSendPost").addEventListener("click", (e) => {
-                    // Obtener el contenido del editor Quill
-                    // var content = quill.root.innerHTML;
-
-                    // Clonar el contenido del editor sin modificar el original
-                    let editorClone = document.querySelector(".ql-editor").cloneNode(true);
-                    editorClone.querySelectorAll(".ql-code-block-container select.ql-ui").forEach(el => el
-                        .remove());
-                    let content = editorClone.innerHTML;
-
-                    document.querySelector('[name=body]').value = content;
-                })
                 quill.getModule("toolbar").addHandler("image", () => {
                     var input = document.createElement('input');
                     input.setAttribute('type', 'file');
@@ -385,6 +378,10 @@
                             });
                         }
                     };
+                })
+                // Agregar texto
+                quill.on('text-change', function() {
+                    querySelector.("#body").value = quill.root.innerHTML;
                 })
             });
         </script>

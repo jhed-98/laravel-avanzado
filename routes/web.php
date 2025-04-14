@@ -17,6 +17,7 @@ Route::resource('articulos', PostController::class)
     ->names('posts');
 
 Route::get('/posts/{post}/image', [PostController::class, 'image_s3'])->name('posts.image_s3');
+Route::get('/download/{post}/download', [PostController::class, 'download'])->name('posts.download');
 
 Route::get('contacts',  [ContactController::class, 'index'])->name('contacts.index');
 Route::post('contacts/',  [ContactController::class, 'store'])->name('contacts.store');

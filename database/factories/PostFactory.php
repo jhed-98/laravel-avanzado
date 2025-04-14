@@ -33,7 +33,7 @@ class PostFactory extends Factory
             'image_path' => fake()->imageUrl(1280, 720),
             'published' => $published,
             'category_id' => \App\Models\Category::inRandomOrder()->first()->id,
-            'user_id' => \App\Models\User::inRandomOrder()->first()->id,
+            'user_id' => \App\Models\User::all()->random()->id,
             'published_at' => $published_at,
         ];
     }
